@@ -1,0 +1,21 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Logs
+logs/
+
+# Documentos reais e imagens de teste (dados pessoais)
+src/images/
+imagem_b64.txt
+src/services/imagem_b64.txt
+
+# Cache
+.ruff_cache/
