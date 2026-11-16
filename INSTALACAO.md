@@ -14,6 +14,29 @@ O projeto precisa de três coisas rodando na máquina:
 | **Tesseract OCR** (com português) | Lê o documento e acha a palavra-âncora ("Diretora"). |
 | **Ollama** + `qwen2.5vl:3b` | Modelo de visão que decide se o recorte tem assinatura. |
 
+### Tesseract × pytesseract: um é o motor, o outro é a ponte
+
+```mermaid
+flowchart LR
+    A([Seu código Python]) --> B([pytesseract]) --> C([tesseract + por.traineddata]) --> D([Texto])
+
+    style A fill:#e6f4ea,stroke:#2e7d32,color:#000
+    style B fill:#dbe9f8,stroke:#1e63b5,color:#000
+    style C fill:#f6a560,stroke:#c0571b,color:#000
+    style D fill:#ede7f6,stroke:#6a3fb5,color:#000
+```
+
+| | **tesseract** (motor) | **pytesseract** (biblioteca Python) |
+|---|---|---|
+| O que é | Programa em C++ que **faz o OCR** de verdade. | **Wrapper**: não faz OCR sozinho. Chama o executável `tesseract` e lê a resposta. |
+| Como instala | Pelo sistema operacional (`apt`, passo 1). | Com pip/uv, junto das dependências (passo 4). |
+| Como usa | Sozinho pelo terminal: `tesseract placa.png saida -l por` | No código: `pytesseract.image_to_string(img, lang="por")` |
+
+Por isso os dois passos são necessários: sem o `tesseract` do sistema, o
+`pytesseract` dá `TesseractNotFoundError`, e sem o `por.traineddata`
+(pacote `tesseract-ocr-por`), o idioma português não existe. Docs e código:
+[github.com/madmaze/pytesseract](https://github.com/madmaze/pytesseract).
+
 ## 1. Pacotes do sistema
 
 ```bash
